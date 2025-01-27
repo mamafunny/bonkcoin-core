@@ -32,7 +32,6 @@ Changes:
 * Algorithm    : Scrypt
 * Block Time   : 60 seconds
 * Explorer 1   : https://explorer.bonkscoin.io
-* Explorer 2   : https://bonkscan.net
 * github       : https://github.com/Bonkcoin/Bonkcoin-core
 * Wallet       : https://github.com/Bonkcoin/Bonkcoin-core/releases
 
