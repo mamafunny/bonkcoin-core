@@ -20,7 +20,7 @@ Sie wurde aus den Programmen Dogecoin Core, Bitcoin Core und anderen Kryptowähr
 
 Für Informationen zu den Standardgebühren im Bonkcoin-Netzwerk lesen Sie die [Gebührenempfehlungen](doc/fee-recommendation_DE.md).
 
-**Website:** [bonkcoin.org](https://bonkcoin.org)
+**Website:** [bonkscoin.io](https://bonkscoin.io)
 
 ## Unterschiede zu Dogecoin
 
@@ -101,11 +101,9 @@ die neuesten Bonc-Memes zu finden, etwas über Bonkcoin zu lernen oder um Ideen 
 
 Hier sind einige Links:
 
-* [r/Bonkcoin Reddit](https://www.reddit.com/r/bonkcoin/) Bonkcoin Reddit
 * [Discord](https://discord.gg/rqtkgwsk6j) Offizieller Bonkcoin Discord Server
-* [Telegram](https://t.me/BonkcoinGroup)
-* [Twitter/X](https://twitter.com/BonkcoinNetwork)
-
+* [Telegram](https://t.me/bonkscoin)
+* [Twitter/X](https://x.com/bonkcoinpow)
 
 ## Häufig gestellte Fragen ❓
 

@@ -12,7 +12,7 @@ Le logiciel Bonkcoin Core permet à quiconque d'opérer un nœud au sein des ré
 
 Pour plus d'informations sur les frais par défaut utilisés sur le réseau Bonkcoin, veuillez vous référer à [recommandation de frais](doc/fee-recommendation.md).
 
-**Site web:** [bonkcoin.org](https://bonkcoin.org)
+**Site web:** [bonkscoin.io](https://bonkscoin.io)
 
 ## Différences avec le Dogecoin
 

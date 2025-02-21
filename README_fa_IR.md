@@ -14,7 +14,7 @@ Bonkcoin Core [BONC, B]
 
 برای اطلاعات در مورد کارمزد‌های پیشفرض استفاده شده در شبکه پپکوین، لطفاً به [توصیه کارمزد](doc/fee-recommendation.md) مراجعه کنید.
 
-**وب‌سایت:** [bonkcoin.org](https://bonkcoin.org)
+**وب‌سایت:** [bonkscoin.io](https://bonkscoin.io)
 
 ## تفاوت‌های دوجکوین
 
@@ -50,7 +50,6 @@ Bonkcoin Core [BONC, B]
 
 * از [پروژه‌های GitHub](https://github.com/Bonkcoin/Bonkcoin-core/projects) برای پیگیری کارهای برنامه‌ریزی شده و در دست اجرا برای انتشارهای آتی استفاده می‌شود.
 * از [بحث در GitHub](https://github.com/Bonkcoin/Bonkcoin-core/discussions) برای بحث در مورد ویژگی‌ها، برنامه‌های برنامه‌ریزی و غیر برنامه‌ریزی مرتبط با توسعه هسته پپکوین، پروتکل‌های مبنایی و دارایی BONC استفاده می‌شود.
-* [زیر‌ردیت BonkcoinDev](https://www.reddit.com/r/bonkcoindev/)
 
 ### استراتژی نسخه
 شماره‌های نسخه به صورت `major.minor.patch` پیروی می‌شوند.
@@ -78,7 +77,6 @@ Bonkcoin Core [BONC, B]
 
 
 * [Discord](https://discord.gg/rqtkgwsk6j)
-* [Website](https://bonkscoin.io/)
 * [Telegram](https://t.me/bonkscoin)
 * [Twitter/X](https://x.com/bonkcoinpow)
 

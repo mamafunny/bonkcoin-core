@@ -14,7 +14,7 @@ Bonkcoin是由2013年原始Dogecoin shibes之一创建的社区关注的加密�
 
 有关Bonkcoin网络上使用的默认费用的信息，请参阅[费用建议](doc/fee-recommendation.md)。
 
-**网站:** [bonkcoin.org](https://bonkcoin.org)
+**网站:** [bonkscoin.io](https://bonkscoin.io)
 
 ## Dogecoin 差异
 
@@ -79,7 +79,6 @@ Bonkcoin Core是一个开源的、社区驱动的软件。开发过程是公开�
 
 
 * [Discord](https://discord.gg/rqtkgwsk6j)
-* [Website](https://bonkscoin.io/)
 * [Telegram](https://t.me/bonkscoin)
 * [Twitter/X](https://x.com/bonkcoinpow)
 

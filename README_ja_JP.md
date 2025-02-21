@@ -14,7 +14,7 @@ Dogecoinと同様に、Bonkcoin Coreソフトウェアを使用すると、誰�
 
 Bonkcoinネットワークで使用されるデフォルトの料金に関する情報については、[料金の推奨事項](doc/fee-recommendation.md)を参照してください。
 
-**ウェブサイト:** [bonkcoin.org](https://bonkcoin.org)
+**ウェブサイト:** [bonkscoin.io](https://bonkscoin.io)
 
 ## Dogecoinの違い
 
@@ -80,7 +80,6 @@ Bonkcoin Coreの開発に参加する方法については、[貢献ガイド](C
 
 
 * [Discord](https://discord.gg/rqtkgwsk6j)
-* [Website](https://bonkscoin.io/)
 * [Telegram](https://t.me/bonkscoin)
 * [Twitter/X](https://x.com/bonkcoinpow)
 

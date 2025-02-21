@@ -14,7 +14,7 @@ Assim como o Dogecoin, o software Bonkcoin Core permite que qualquer pessoa oper
 
 Para informações sobre as taxas padrão usadas na rede Bonkcoin, por favor consulte a [recomendação de taxas](doc/fee-recommendation.md).
 
-**Website:** [bonkcoin.org](https://bonkcoin.org)
+**Website:** [bonkscoin.io](https://bonkscoin.io)
 
 ## Diferenças do Dogecoin
 
@@ -49,7 +49,6 @@ Principais recursos de desenvolvimento:
 
 * [Projetos do GitHub](https://github.com/Bonkcoin/Bonkcoin-core/projects) são usados para seguir o trabalho planejado e em progresso para futuros lançamentos.
 * [Discussão do GitHub](https://github.com/Bonkcoin/Bonkcoin-core/discussions) é usada para discutir recursos, planejados e não planejados, relacionados tanto ao desenvolvimento do software Bonkcoin Core, quanto aos protocolos subjacentes e o ativo BONC.
-* [Subreddit BonkcoinDev](https://www.reddit.com/r/bonkcoindev/)
 
 ### Estratégia de versão
 Os números de versão seguem a semântica ```principal.menor.correção```.
@@ -78,7 +77,6 @@ Aqui estão alguns lugares para visitar:
 
 
 * [Discord](https://discord.gg/rqtkgwsk6j)
-* [Website](https://bonkscoin.io/)
 * [Telegram](https://t.me/bonkscoin)
 * [Twitter/X](https://x.com/bonkcoinpow)
 
