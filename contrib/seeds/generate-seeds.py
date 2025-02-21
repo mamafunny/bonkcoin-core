@@ -127,7 +127,11 @@ def main():
     g.write(' * IPv4 as well as onion addresses are wrapped inside a IPv6 address accordingly.\n')
     g.write(' */\n')
     with open(os.path.join(indir,'nodes_main.txt'),'r') as f:
+<<<<<<< HEAD
         process_nodes(g, f, 'pnSeed6_main', 14327)
+=======
+        process_nodes(g, f, 'pnSeed6_main', 33874)
+>>>>>>> ae68faa53f2c6190a558c8bc4f70af4579bd0268
     g.write('\n')
     with open(os.path.join(indir,'nodes_test.txt'),'r') as f:
         process_nodes(g, f, 'pnSeed6_test', 44874)

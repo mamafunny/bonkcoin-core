@@ -1,4 +1,5 @@
 // Copyright (c) 2015-2021 The Dogecoin Core developers
+// Copyright (c) 2024-2025 The Bonkcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -126,6 +127,9 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 
 CAmount GetBonkcoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash)
 {
+    // enable this if using another logic
+    // int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+
     if (!consensusParams.fSimplifiedRewards)
     {
         // Old-style rewards derived from the previous block hash
@@ -133,28 +137,41 @@ CAmount GetBonkcoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
         const char* cseed = cseed_str.c_str();
         char* endp = NULL;
         long seed = strtol(cseed, &endp, 16);
+        // disable this to use another logic
         CAmount maxReward = (1000000 >> (nHeight / consensusParams.nSubsidyHalvingInterval)) - 1;
+        // enable this to when using another logic
+        // CAmount maxReward = (1000000 >> halvings) - 1;
         int rand = generateMTRandom(seed, maxReward);
 
         return (1 + rand) * COIN;
+        
+    // disable this to use to another logic
     } 
     else 
     {
         // New-style constant rewards based on block height
-        if (nHeight < 100000)
+        if (nHeight < 50000)
             return 500000 * COIN;
-        else if (nHeight < 200000)
+        else if (nHeight < 100000)
             return 250000 * COIN;
-        else if (nHeight < 300000)
+        else if (nHeight < 150000)
             return 125000 * COIN;
-        else if (nHeight < 400000)
+        else if (nHeight < 200000)
             return 62500 * COIN;
-        else if (nHeight < 500000)
+        else if (nHeight < 250000)
             return 31250 * COIN;
-        else if (nHeight < 600000)
+        else if (nHeight < 300000)
             return 15625 * COIN;
         else
-            return 10000 * COIN; // Constant inflation for blocks >= 600,000
+            return 10000 * COIN; // Constant inflation for blocks >= 300,000
+
+    // should use this logic for halving, but not sure if it works? disable for now
+    // } else if (nHeight < (6 * consensusParams.nSubsidyHalvingInterval)) {
+    //     // New-style constant rewards for each halving interval
+    //     return (500000 * COIN) >> halvings;
+    // } else {
+    //     // Constant inflation
+    //     return 10000 * COIN;
     }
 }
 

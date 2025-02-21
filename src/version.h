@@ -9,14 +9,20 @@
  * network protocol versioning
  */
 
+// XXX: Decide if this is appropriate - if we reintroduce alerts we may need
+//      to  reduce to 70003
+static const int PROTOCOL_VERSION = 70016;
+
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
 //! In this version, 'getheaders' was introduced.
 static const int GETHEADERS_VERSION = 31800;
 
+// XXX: Decide if this is appropriate - if we reintroduce alerts we may need
+//      to  reduce to 70003
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 70003;
+static const int MIN_PEER_PROTO_VERSION = 70016;
 
 //! nTime field added to CAddress, starting with this version;
 //! if possible, avoid requesting addresses nodes older than this
@@ -45,8 +51,5 @@ static const int INVALID_CB_NO_BAN_VERSION = 70015;
 
 //! accept merge mining before block 100k, starting with this version
 static const int AUXPOW_BEFORE_100K_VERSION = 70016;
-
-//! current protocol version
-static const int PROTOCOL_VERSION = AUXPOW_BEFORE_100K_VERSION;
 
 #endif // BITCOIN_VERSION_H
