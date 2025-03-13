@@ -138,6 +138,15 @@ public:
         auxpowConsensus.nHeightEffective = 42000;
         auxpowConsensus.fAllowLegacyBlocks = false;
 
+        // 15% of Block reward to operations wallet
+	    nDeveloperFee = 15;
+
+        // This is the block height when the devfee starts working
+        nDeveloperFeeStart = 100000;
+
+        // Developer wallet address
+        strDeveloperFeeAddress = "B5JsYYsjnbFYHDrpibAStTEGpxyZrPBVr3";
+
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
         digishieldConsensus.pLeft = &consensus;
