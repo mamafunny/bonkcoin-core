@@ -26,6 +26,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
+#include "wallet/wallet.h"
 
 #include <algorithm>
 #include <boost/thread.hpp>
@@ -193,9 +194,18 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     coinbaseTx.vin[0].prevout.SetNull();
     coinbaseTx.vout.resize(1);
     coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
-    coinbaseTx.vout[0].nValue = nFees + GetBonkcoinBlockSubsidy(nHeight, consensus, pindexPrev->GetBlockHash(
-));
+    coinbaseTx.vout[0].nValue = nFees + GetBonkcoinBlockSubsidy(nHeight, consensus, pindexPrev->GetBlockHash());
     coinbaseTx.vin[0].scriptSig = CScript() << nHeight << OP_0;
+
+    FounderPayment founderPayment = chainparams.GetConsensus(nHeight).nFounderPayment;
+	// founderPayment.FillFounderPayment(coinbaseTx, nHeight - 1, blockReward, pblock->txoutFounder);
+    // Get the hash of the previous block
+    uint256 hashPrevBlock = pindexPrev->GetBlockHash();
+
+    // Calculate the block reward
+    CAmount blockReward = GetBonkcoinBlockSubsidy(nHeight, chainparams.GetConsensus(nHeight), hashPrevBlock);
+    founderPayment.FillFounderPayment(coinbaseTx, nHeight - 1, blockReward, pblock->txoutFounder);
+
     pblock->vtx[0] = MakeTransactionRef(std::move(coinbaseTx));
     pblocktemplate->vchCoinbaseCommitment = GenerateCoinbaseCommitment(*pblock, pindexPrev, consensus);
     pblocktemplate->vTxFees[0] = -nFees;

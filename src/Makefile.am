@@ -281,6 +281,7 @@ libbonkcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbonkcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbonkcoin_consensus_a_SOURCES = \
   amount.h \
+  founder_payment.h \
   arith_uint256.cpp \
   arith_uint256.h \
   consensus/merkle.cpp \
@@ -321,6 +322,7 @@ libbonkcoin_common_a_SOURCES = \
   arith_uint256.cpp \
   auxpow.cpp \
   base58.cpp \
+  founder_payment.cpp \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \

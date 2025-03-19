@@ -67,6 +67,7 @@ public:
     // network and disk
     std::vector<CTransactionRef> vtx;
 
+    mutable CTxOut txoutFounder; // founder payment
     // memory only
     mutable bool fChecked;
 

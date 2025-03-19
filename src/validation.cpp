@@ -7,6 +7,7 @@
 #include "validation.h"
 
 #include "arith_uint256.h"
+#include "base58.h"
 #include "chainparams.h"
 #include "checkpoints.h"
 #include "checkqueue.h"
@@ -39,6 +40,7 @@
 #include "validationinterface.h"
 #include "versionbits.h"
 #include "warnings.h"
+#include "script/standard.h" // For DecodeDestination
 
 #include <atomic>
 #include <sstream>
@@ -1979,6 +1981,23 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return error("ConnectBlock(): CheckInputs on %s failed with %s",
                     tx.GetHash().ToString(), FormatStateMessage(state));
             control.Add(vChecks);
+
+            int nHeight = pindex->nHeight; // Current block height
+            FounderPayment founderPayment = Params().GetConsensus(nHeight).nFounderPayment;
+            CAmount blockReward = GetBonkcoinBlockSubsidy(nHeight, chainparams.GetConsensus(nHeight), pindex->pprev->GetBlockHash());
+            CAmount founderReward = founderPayment.getFounderPaymentAmount(nHeight, blockReward);
+
+            if (founderReward && !founderPayment.IsBlockPayeeValid(tx, nHeight, blockReward)) {
+                return state.DoS(100, false, REJECT_INVALID, "bad-cb-founder-payment-not-found");
+            }
+
+            if (founderReward && tx.vout[1].nValue != founderReward) {
+                return state.DoS(100,
+                                error("ConnectBlock(): coinbase Community Autonomous Amount Is Invalid. Actual: %ld Should be:%ld ",
+                                    tx.vout[1].nValue, founderReward),
+                                REJECT_INVALID, "bad-cb-community-autonomous-amount");
+            }
+
         }
 
         CTxUndo undoDummy;
@@ -1998,7 +2017,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         return state.DoS(100,
                          error("ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d)",
                                block.vtx[0]->GetValueOut(), blockReward),
-                               REJECT_INVALID, "bad-cb-amount");
+                               REJECT_INVALID, "bad-cb-amount");                    
 
     if (!control.Wait())
         return state.DoS(100, false);

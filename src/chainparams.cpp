@@ -8,6 +8,7 @@
 
 #include "chainparams.h"
 #include "consensus/merkle.h"
+#include "founder_payment.h" // Include the FounderPayment header
 
 #include "tinyformat.h"
 #include "util.h"
@@ -137,6 +138,10 @@ public:
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = 42000;
         auxpowConsensus.fAllowLegacyBlocks = false;
+
+        std::vector<FounderRewardStructure> rewardStructures = {{INT_MAX, 15}}; // 10% founder/dev fee forever
+        consensus.nFounderPayment = FounderPayment(rewardStructures, 1);
+        // consensus.nSpecialRewardShare = Consensus::SpecialRewardShare(0.85,0.15); // enable if want to test special reward share
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;

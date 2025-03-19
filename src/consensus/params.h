@@ -8,6 +8,7 @@
 #define BITCOIN_CONSENSUS_PARAMS_H
 
 #include "uint256.h"
+#include "founder_payment.h"
 #include <map>
 #include <string>
 
@@ -33,6 +34,14 @@ struct BIP9Deployment {
     /** Timeout/expiry MedianTime for the deployment attempt. */
     int64_t nTimeout;
 };
+
+// test devfee special reward from smartnode
+// struct SpecialRewardShare {
+// 	float miner;
+// 	float founder;
+// 	SpecialRewardShare() : miner(0), founder(0) {}
+// 	SpecialRewardShare(float _miner, float _founder) : miner(_miner), founder(_founder) {}
+// };
 
 /**
  * Parameters that influence chain consensus.
@@ -82,6 +91,7 @@ struct Params {
     bool fAllowLegacyBlocks;
 
     /** Height-aware consensus parameters */
+    FounderPayment nFounderPayment;
     uint32_t nHeightEffective; // When these parameters come into use
     struct Params *pLeft = nullptr;      // Left hand branch
     struct Params *pRight = nullptr;     // Right hand branch

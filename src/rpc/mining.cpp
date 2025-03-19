@@ -12,6 +12,7 @@
 #include "consensus/params.h"
 #include "consensus/validation.h"
 #include "core_io.h"
+#include "founder_payment.h"
 #include "init.h"
 #include "validation.h"
 #include "miner.h"
@@ -715,6 +716,30 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     result.pushKV("transactions", transactions);
     result.pushKV("coinbaseaux", aux);
     result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
+
+    UniValue founderObj(UniValue::VOBJ);
+
+    // Get the current block height
+    int nHeight = pindexPrev->nHeight + 1;
+
+    // Initialize founder payment details
+    FounderPayment founderPayment = Params().GetConsensus(nHeight).nFounderPayment;
+
+    if (pblock->txoutFounder != CTxOut()) {
+        CTxDestination address;
+        ExtractDestination(pblock->txoutFounder.scriptPubKey, address);
+        CBitcoinAddress address2(address);
+
+        // Add founder payment details to the JSON object
+        founderObj.pushKV("payee", address2.ToString());
+        founderObj.pushKV("script", HexStr(pblock->txoutFounder.scriptPubKey.begin(), pblock->txoutFounder.scriptPubKey.end()));
+        founderObj.pushKV("amount", pblock->txoutFounder.nValue);
+    }
+
+    // Add the founder object to the result
+    result.pushKV("founder", founderObj);
+    result.pushKV("founder_payments_started", nHeight > founderPayment.getStartBlock());
+
     result.pushKV("longpollid", chainActive.Tip()->GetBlockHash().GetHex() + i64tostr(nTransactionsUpdatedLast));
     result.pushKV("target", hashTarget.GetHex());
     result.pushKV("mintime", (int64_t)pindexPrev->GetMedianTimePast()+1);
