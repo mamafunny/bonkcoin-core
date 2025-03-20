@@ -410,8 +410,8 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "      \"flags\" : \"xx\"                  (string) key name is to be ignored, and value included in scriptSig\n"
             "  },\n"
             "  \"coinbasevalue\" : n,              (numeric) maximum allowable input to coinbase transaction, including the generation award and transaction fees (in Satoshis)\n"
-            "  \"DeveloperFeeAddress\" : n,         (string) Developer Fee Address\n"
-            "  \"DeveloperFeeAmount\" : n,          (numeric) Developer Fee Value, 15% of the coinbase\n"
+            "  \"DeveloperFeeAddress\" : n,         (string) Founder Fee Address\n"
+            "  \"DeveloperFeeAmount\" : n,          (numeric) Founder Fee Value, 15% of the coinbase\n"
             "  \"coinbasetxn\" : { ... },          (json object) information for coinbase transaction\n"
             "  \"target\" : \"xxxx\",                (string) The hash target\n"
             "  \"mintime\" : xxx,                  (numeric) The minimum timestamp appropriate for next block time in seconds since epoch (Jan 1 1970 GMT)\n"
@@ -718,37 +718,37 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     result.pushKV("coinbaseaux", aux);
     result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
 
-    UniValue developerObj(UniValue::VOBJ); // Create a nested JSON object for developer fee details
+    UniValue founderObj(UniValue::VOBJ); // Create a nested JSON object for founder fee details
     CAmount nDeveloperFeeStart = Params().DeveloperFeeStart();
 
-    // Check if developer fees are activated
+    // Check if founder fees are activated
     if (pindexPrev->nHeight + 1 >= nDeveloperFeeStart) {
-        // Extract developer fee details from the coinbase transaction
-        if (pblock->vtx[0]->vout.size() > 1) { // Ensure the developer output exists
+        // Extract founder fee details from the coinbase transaction
+        if (pblock->vtx[0]->vout.size() > 1) { // Ensure the founder output exists
             CTxDestination address;
             ExtractDestination(pblock->vtx[0]->vout[1].scriptPubKey, address);
             CBitcoinAddress address2(address);
 
-            // Add developer fee details to the nested JSON object
-            developerObj.pushKV("payee", address2.ToString());
-            developerObj.pushKV("script", HexStr(pblock->vtx[0]->vout[1].scriptPubKey.begin(), pblock->vtx[0]->vout[1].scriptPubKey.end()));
-            developerObj.pushKV("amount", (int64_t)pblock->vtx[0]->vout[1].nValue);
+            // Add founder fee details to the nested JSON object
+            founderObj.pushKV("payee", address2.ToString());
+            founderObj.pushKV("script", HexStr(pblock->vtx[0]->vout[1].scriptPubKey.begin(), pblock->vtx[0]->vout[1].scriptPubKey.end()));
+            founderObj.pushKV("amount", (int64_t)pblock->vtx[0]->vout[1].nValue);
         } else {
-            // If the developer output is missing, add placeholder values
-            developerObj.pushKV("payee", "Developer Fee Not Found");
-            developerObj.pushKV("script", "");
-            developerObj.pushKV("amount", 0);
+            // If the founder output is missing, add placeholder values
+            founderObj.pushKV("payee", "Founder Fee Not Found");
+            founderObj.pushKV("script", "");
+            founderObj.pushKV("amount", 0);
         }
     } else {
-        // If developer fees are not activated, add placeholder values
-        developerObj.pushKV("payee", "Developer Fee Not Activated");
-        developerObj.pushKV("script", "");
-        developerObj.pushKV("amount", 0);
+        // If founder fees are not activated, add placeholder values
+        founderObj.pushKV("payee", "Founder Fee Not Activated");
+        founderObj.pushKV("script", "");
+        founderObj.pushKV("amount", 0);
     }
 
-    // Add the developer object to the result
-    result.pushKV("developer", developerObj);
-    result.pushKV("developer_fees_started", pindexPrev->nHeight + 1 >= nDeveloperFeeStart);
+    // Add the founder object to the result
+    result.pushKV("founder", founderObj);
+    result.pushKV("founder_payments_started", pindexPrev->nHeight + 1 >= nDeveloperFeeStart);
 
     result.pushKV("longpollid", chainActive.Tip()->GetBlockHash().GetHex() + i64tostr(nTransactionsUpdatedLast));
     result.pushKV("target", hashTarget.GetHex());

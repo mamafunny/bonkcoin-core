@@ -2024,14 +2024,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         // Check 15% Amount
         if (block.vtx[0]->vout[1].nValue != nDeveloperFeeAmountValue) {
             return state.DoS(100,
-                            error("ConnectBlock(): coinbase Developer Fee Amount Is Invalid. Actual: %ld Should be:%ld ",
+                            error("ConnectBlock(): coinbase Founder Fee Amount Is Invalid. Actual: %ld Should be:%ld ",
                                     block.vtx[0]->vout[1].nValue, nDeveloperFeeAmountValue),
                             REJECT_INVALID, "bad-cb-developer-fee-amount");
         }
         // Check developer fee address
         if (HexStr(block.vtx[0]->vout[1].scriptPubKey) != HexStr(scriptPubKeyDeveloperFeeAddress)) {
             return state.DoS(100,
-                            error("ConnectBlock(): coinbase Developer Fee Address Is Invalid. Actual: %s Should Be: %s \n",
+                            error("ConnectBlock(): coinbase Founder Fee Address Is Invalid. Actual: %s Should Be: %s \n",
                                     HexStr(block.vtx[0]->vout[1].scriptPubKey), HexStr(scriptPubKeyDeveloperFeeAddress)),
                             REJECT_INVALID, "bad-cb-developer-fee-address");
         }
