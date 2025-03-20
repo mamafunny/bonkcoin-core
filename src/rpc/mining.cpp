@@ -12,6 +12,7 @@
 #include "consensus/params.h"
 #include "consensus/validation.h"
 #include "core_io.h"
+#include "founder_payment.h"
 #include "init.h"
 #include "validation.h"
 #include "miner.h"
@@ -714,7 +715,45 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     result.pushKV("previousblockhash", pblock->hashPrevBlock.GetHex());
     result.pushKV("transactions", transactions);
     result.pushKV("coinbaseaux", aux);
-    result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
+    result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->GetValueOut()); // to work with new founderfee
+
+    UniValue founderObj(UniValue::VOBJ);
+    // Get the current block height
+    int nHeight = pindexPrev->nHeight + 1;
+    // Initialize founder payment details
+    FounderPayment founderPayment = Params().GetConsensus(nHeight).nFounderPayment;
+    // Log the founder payment start block and current height
+    LogPrintf("FounderPayment object Start Block: %d, Current Height: %d\n", founderPayment.getStartBlock(), nHeight);
+    // Get the founder payment amount (this is calculated earlier in your code)
+    CAmount founderAmount = pblock->txoutFounder.nValue;
+    // Log the founder payment amount
+    LogPrintf("Founder Payment Amount: %ld\n", founderAmount);
+    // Check if the founder payment has started based on the current height and start block
+    bool founderPaymentsStarted = (nHeight >= founderPayment.getStartBlock());
+    // Log if the founder payment is activated or not
+    if (founderPaymentsStarted) {
+        LogPrintf("Founder Payment Activated\n");
+    } else {
+        LogPrintf("Founder Payment Not Activated\n");
+    }
+    // Extract payee address and script (always show these fields)
+    CBitcoinAddress address;
+    std::string scriptHex;
+    if (pblock->txoutFounder != CTxOut()) {
+        CTxDestination dest;
+        if (ExtractDestination(pblock->txoutFounder.scriptPubKey, dest)) {
+            address = CBitcoinAddress(dest);
+        }
+        scriptHex = HexStr(pblock->txoutFounder.scriptPubKey.begin(), pblock->txoutFounder.scriptPubKey.end());
+    }
+    // Add founder payment details (even if the amount is 0)
+    founderObj.pushKV("payee", address.IsValid() ? address.ToString() : "N/A");
+    founderObj.pushKV("script", scriptHex);
+    founderObj.pushKV("amount", founderAmount);
+    // Add to result
+    result.pushKV("founder", founderObj);
+    result.pushKV("founder_payments_started", founderPaymentsStarted);
+
     result.pushKV("longpollid", chainActive.Tip()->GetBlockHash().GetHex() + i64tostr(nTransactionsUpdatedLast));
     result.pushKV("target", hashTarget.GetHex());
     result.pushKV("mintime", (int64_t)pindexPrev->GetMedianTimePast()+1);
@@ -1089,7 +1128,7 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
     result.pushKV("hash", pblock->GetHash().GetHex());
     result.pushKV("chainid", pblock->GetChainId());
     result.pushKV("previousblockhash", pblock->hashPrevBlock.GetHex());
-    result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
+    result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue); // need to change to GetValueOut too if something goes wrong
     result.pushKV("bits", strprintf("%08x", pblock->nBits));
     result.pushKV("height", static_cast<int64_t> (pindexPrev->nHeight + 1));
     result.pushKV(fUseNamecoinApi ? "_target" : "target", HexStr(BEGIN(target), END(target)));
@@ -1234,7 +1273,7 @@ UniValue getauxblockbip22(const JSONRPCRequest& request)
         result.pushKV("hash", pblock->GetHash().GetHex());
         result.pushKV("chainid", pblock->GetChainId());
         result.pushKV("previousblockhash", pblock->hashPrevBlock.GetHex());
-        result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
+        result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue); // need to change to GetValueOut too if something goes wrong
         result.pushKV("bits", strprintf("%08x", pblock->nBits));
         result.pushKV("height", static_cast<int64_t> (pindexPrev->nHeight + 1));
         result.pushKV(fUseNamecoinApi ? "_target" : "target", HexStr(BEGIN(target), END(target)));
